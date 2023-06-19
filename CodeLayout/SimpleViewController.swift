@@ -13,7 +13,9 @@ final class SimpleViewController: UIViewController {
     // MARK: - Private properties
     private var simpleLabel = UILabel()
     private var simpleButton = UIButton()
+    private var simpleSwitch = UISwitch()
     
+    private var statusLabel = UILabel()
 
     // MARK: - Override UIViewController
     override func viewDidLoad() {
@@ -27,17 +29,29 @@ final class SimpleViewController: UIViewController {
         simpleLabel.text = "Hi Swift!"
         
     }
+    
+    @objc
+    private func changeBackgroundColor() {
+        if simpleSwitch.isOn {
+            view.backgroundColor = .systemPink
+            statusLabel.text = "ON"
+        } else {
+            view.backgroundColor = .systemCyan
+            statusLabel.text = "OFF"
+        }
+    }
+    
 }
 
 // MARK: - Setting View
 extension SimpleViewController {
     func setupView() {
-        view.backgroundColor = .systemPink
+        view.backgroundColor = .darkGray
         
         addSubViews()
         addActions()
         
-        setupSimpleLabel()
+        setupLabels()
         setupSimpleButton()
         
         setupLayout()
@@ -49,6 +63,8 @@ extension SimpleViewController {
     func addSubViews() {
         view.addSubview(simpleLabel)
         view.addSubview(simpleButton)
+        view.addSubview(simpleSwitch)
+        view.addSubview(statusLabel)
     }
         
     func addActions() {
@@ -57,12 +73,22 @@ extension SimpleViewController {
             action: #selector(changeLabel),
             for: .touchUpInside
         )
+        
+        simpleSwitch.addTarget(
+            self,
+            action: #selector(changeBackgroundColor),
+            for: .touchUpInside
+        )
     }
     
-    func setupSimpleLabel() {
+    func setupLabels() {
         simpleLabel.text = "Hi"
         simpleLabel.textColor = .white
-        simpleLabel.font = UIFont.boldSystemFont(ofSize: 32)
+        simpleLabel.font = UIFont.boldSystemFont(ofSize: 35)
+        
+        statusLabel.text = "OFF"
+        statusLabel.textColor = .white
+        statusLabel.font = UIFont.boldSystemFont(ofSize: 40)
         
     }
     
@@ -81,7 +107,7 @@ extension SimpleViewController {
 extension SimpleViewController {
     func setupLayout() {
         
-        [simpleLabel, simpleButton].forEach {
+        [simpleLabel, simpleButton, simpleSwitch, statusLabel].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
@@ -92,8 +118,13 @@ extension SimpleViewController {
             simpleButton.topAnchor.constraint(equalTo: simpleLabel.topAnchor, constant: 200),
             simpleButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             simpleButton.widthAnchor.constraint(equalToConstant: 200),
-            simpleButton.heightAnchor.constraint(equalToConstant: 70)
-        
+            simpleButton.heightAnchor.constraint(equalToConstant: 70),
+            
+            simpleSwitch.topAnchor.constraint(equalTo: simpleButton.bottomAnchor, constant: 100),
+            simpleSwitch.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            statusLabel.topAnchor.constraint(equalTo: simpleButton.topAnchor, constant: 100),
+            statusLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
 }
