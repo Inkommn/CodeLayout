@@ -46,7 +46,7 @@ final class SimpleViewController: UIViewController {
 // MARK: - Setting View
 extension SimpleViewController {
     func setupView() {
-        view.backgroundColor = .darkGray
+        view.backgroundColor = .gray
         
         addSubViews()
         addActions()
